@@ -24,7 +24,6 @@ This application uses environment variables for configuration. These need to be 
 ```properties
 CONTENTFUL_SPACE_ID=<Your Contentful Space ID>
 CONTENTFUL_ENVIRONMENT=<Your Contentful Environment>
-CONTENTFUL_ACCESS_TOKEN=<Your Contentful Access Token>
 CONTENTFUL_CMA_ACCESS_TOKEN=<Your Contentful Management API Access Token>
 ```
 
