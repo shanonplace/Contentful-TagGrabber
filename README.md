@@ -17,6 +17,17 @@ Just a tool to find all of the public and private tags in Contentful and what en
    npm install
    ```
 
+## ⚙️ Configuration
+
+This application uses environment variables for configuration. These are stored in a `.env` file at the root of the project. Here's the format:
+
+```properties
+CONTENTFUL_SPACE_ID=<Your Contentful Space ID>
+CONTENTFUL_ENVIRONMENT=<Your Contentful Environment>
+CONTENTFUL_ACCESS_TOKEN=<Your Contentful Access Token>
+CONTENTFUL_CMA_ACCESS_TOKEN=<Your Contentful Management API Access Token>
+```
+
 ## 🏃‍♀️ Usage
 
 Run the application with the following command:
