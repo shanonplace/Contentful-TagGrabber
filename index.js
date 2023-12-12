@@ -16,17 +16,29 @@ async function fetchTags(environment) {
   }
 }
 
+async function getEntriesForTag(environment, tagId) {
+  return await environment
+    .getEntries({
+      "metadata.tags.sys.id[in]": tagId,
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 async function main() {
+  //get the current contentful environment
   const environment = await getEnvironment();
 
+  //grab all of those tags
+  //Note: need the CMA to get private tags and i'm not paginating because the total number of tags is smaller than the response limit
   const allTags = await fetchTags(environment);
+
   //for each tag, save out the sys.id and name and then fetch the entries for that tag
   for (const tag of allTags.items) {
     const tagId = tag.sys.id;
     const tagName = tag.name;
-    const entries = await environment.getEntries({
-      "metadata.tags.sys.id[in]": tagId,
-    });
+    const entries = await getEntriesForTag(environment, tagId);
 
     //for each of the entries, console log tag name and id and then the entry id and title
     for (const entry of entries.items) {
@@ -34,22 +46,15 @@ async function main() {
       const entryTitle = entry.sys.contentType.sys.id;
       console.log(`${tagName},${tagId},${entryId},${entryTitle}`);
     }
-    //save out the entries
-    //console.log(`Saving ${entries.items.length} entries for ${tagName}`);
-    // console.log(JSON.stringify(entries));
 
-    // Delay for 1/3 second (300 milliseconds) before making the next request
-    await delay(100);
+    //delay vs promise pools for now as it's a small dataset
+    await delay(300);
   }
 }
 
+//chill out for a bit
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 main();
-
-// client
-//   .getEntries({ "metadata.tags.sys.id[in]": "portMacquarie" })
-//   .then((response) => console.log(JSON.stringify(response)))
-//   .catch(console.error);
